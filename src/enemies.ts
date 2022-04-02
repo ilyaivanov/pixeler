@@ -1,4 +1,4 @@
-import * as canvas from "./canvas";
+import * as canvas from "./engine/canvas";
 import { worldSize } from "./constants";
 import { distance } from "./player";
 
@@ -26,19 +26,15 @@ export const render = () => {
   });
 };
 
-const enemies: Enemy[] = [
-  { type: "straight", direction: "right", x: 0, y: 0 },
-  { type: "straight", direction: "left", x: 40, y: 40 },
-  { type: "straight", direction: "top", x: 70, y: -20 },
-  { type: "straight", direction: "bottom", x: 0, y: 20 },
-];
+export const enemies: Enemy[] = [];
 
 type Direction = "right" | "left" | "top" | "bottom";
-type Enemy = {
+export type Enemy = {
   type: "straight";
   direction: Direction;
   x: number;
   y: number;
+  size: number;
 };
 
 const speed = 0.1;
@@ -73,9 +69,14 @@ const spawnEnemy = () => {
     direction: getRandomDirection(),
     x: 0,
     y: 0,
+    size: enemySize,
   };
   enemies.push(enemy);
 };
 
 const getRandomNumber = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
+
+export const onCollide = (enemy: Enemy) => {
+  enemies.splice(enemies.indexOf(enemy), 1);
+};

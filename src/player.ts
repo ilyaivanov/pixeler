@@ -1,5 +1,5 @@
 import { buttons } from "./buttons";
-import * as canvas from "./canvas";
+import * as canvas from "./engine/canvas";
 import * as bullets from "./bullets";
 import { worldSize } from "./constants";
 

@@ -1,9 +1,9 @@
-import * as canvas from "./canvas";
 import { worldSize } from "./constants";
 import * as player from "./player";
 import * as enemies from "./enemies";
 import * as bullets from "./bullets";
-import * as camera from "./camera";
+import * as canvas from "./engine/canvas";
+import * as camera from "./engine/camera";
 
 const el = canvas.createFullscreenCanvas();
 
@@ -55,9 +55,10 @@ const render = () => {
 };
 
 const onTick = (deltaTimeMs: number) => {
-  player.onTick(deltaTimeMs);
-  enemies.onGameTick(deltaTimeMs);
-  bullets.onGameTick(deltaTimeMs);
+  const slowTime = deltaTimeMs;
+  player.onTick(slowTime);
+  enemies.onGameTick(slowTime);
+  bullets.onGameTick(slowTime);
 
   camera.onTick(player.position);
 };
