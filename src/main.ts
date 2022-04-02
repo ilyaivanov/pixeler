@@ -1,4 +1,5 @@
 import * as canvas from "./canvas";
+import * as player from "./player";
 
 const el = canvas.createFullscreenCanvas();
 
@@ -6,18 +7,40 @@ el.style.display = "block";
 document.body.appendChild(el);
 
 document.body.style.margin = 0 + "";
-document.body.style.backgroundColor = "#1e1e1e";
-
+document.body.style.backgroundColor = "#7A9EAA";
 
 const render = () => {
-    canvas.clear();
-    canvas.drawRect(20, 20, 50, 50, 'white')
-    canvas.drawRect(70, 70, 50, 50, 'white')
-    canvas.drawRect(220, 220, 50, 50, 'white')
-    canvas.drawRect(120, 120, 100, 100, 'white')
+  canvas.clear();
+
+  for (let i = 0; i < 10; i += 1) {
+    canvas.drawRectRounded(
+      -700 + i * 150,
+      -700 + i * 150,
+      100,
+      100,
+      10,
+      "#A4B6A8"
+    );
+  }
+
+  player.render();
 };
 
+const onTick = (deltaTimeMs: number) => {
+  player.onTick(deltaTimeMs);
+};
 
-canvas.addEventListener('resize', render)
+let lastTime = 0;
+
+const onFrame = (time: number) => {
+  onTick(time - lastTime);
+  render();
+  lastTime = time;
+  requestAnimationFrame(onFrame);
+};
+
+requestAnimationFrame(onFrame);
+
+canvas.addEventListener("resize", render);
 
 render();
