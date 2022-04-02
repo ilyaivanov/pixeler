@@ -1,14 +1,19 @@
 import { buttons } from "./buttons";
 import * as canvas from "./canvas";
+import { worldSize } from "./constants";
 
-const speed = 0.1;
+const speed = 0.3;
+const playerSize = 25;
 
-let x = 0;
-let y = 0;
+export let position = {
+  x: 0,
+  y: 0,
+};
 let shift = {
   x: 0,
   y: 0,
 };
+
 export const onTick = (deltaTimeMs: number) => {
   if (buttons["KeyD"]) shift.x = 1;
   else if (buttons["KeyA"]) shift.x = -1;
@@ -23,10 +28,46 @@ export const onTick = (deltaTimeMs: number) => {
     shift.x /= length;
     shift.y /= length;
   }
-  x += deltaTimeMs * shift.x * speed;
-  y += deltaTimeMs * shift.y * speed;
+
+  position.x += deltaTimeMs * shift.x * speed;
+  position.y += deltaTimeMs * shift.y * speed;
+
+  if (position.x > worldSize - playerSize / 2) {
+    position.x = worldSize - playerSize / 2;
+  } else if (position.x < -worldSize + playerSize / 2) {
+    position.x = -worldSize + playerSize / 2;
+  }
+  if (position.y > worldSize - playerSize / 2) {
+    position.y = worldSize - playerSize / 2;
+  } else if (position.y < -worldSize + playerSize / 2) {
+    position.y = -worldSize + playerSize / 2;
+  }
 };
 
 export const render = () => {
-  canvas.drawRectRounded(x, y, 50, 50, 10, "#ffffff");
+  canvas.drawRect(
+    position.x - playerSize / 2,
+    position.y - playerSize / 2,
+    playerSize,
+    playerSize,
+    "#F6EBAB"
+  );
 };
+
+export const renderUI = () => {
+  canvas.drawText(
+    20,
+    20,
+    `${position.x.toFixed(0)},${position.y.toFixed(0)}`,
+    20,
+    "#ffffff"
+  );
+};
+
+type Vector = {
+  x: number;
+  y: number;
+};
+
+export const distance = (v: Vector, w: Vector) =>
+  Math.sqrt(Math.pow(v.x - w.x, 2) + Math.pow(v.y - w.y, 2));
