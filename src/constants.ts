@@ -1,1 +1,1 @@
-export const worldSize = 600;
+export const worldSize = 800;

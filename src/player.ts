@@ -1,5 +1,6 @@
 import { buttons } from "./buttons";
 import * as canvas from "./canvas";
+import * as bullets from "./bullets";
 import { worldSize } from "./constants";
 
 const speed = 0.3;
@@ -45,23 +46,7 @@ export const onTick = (deltaTimeMs: number) => {
 };
 
 export const render = () => {
-  canvas.drawRect(
-    position.x - playerSize / 2,
-    position.y - playerSize / 2,
-    playerSize,
-    playerSize,
-    "#F6EBAB"
-  );
-};
-
-export const renderUI = () => {
-  canvas.drawText(
-    20,
-    20,
-    `${position.x.toFixed(0)},${position.y.toFixed(0)}`,
-    20,
-    "#ffffff"
-  );
+  canvas.drawSquareAtCenter(position.x, position.y, playerSize, "#F6EBAB");
 };
 
 type Vector = {
@@ -71,3 +56,7 @@ type Vector = {
 
 export const distance = (v: Vector, w: Vector) =>
   Math.sqrt(Math.pow(v.x - w.x, 2) + Math.pow(v.y - w.y, 2));
+
+document.addEventListener("mousedown", (e) => {
+  bullets.fire(position, e);
+});

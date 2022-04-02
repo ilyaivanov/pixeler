@@ -140,6 +140,12 @@ export const drawLine = (
     canvas.ctx.stroke();
 };
 
+
+export const drawSquareAtCenter = (x: number, y: number, size: number, color: string) => {
+    const halfSize = size / 2;
+    drawRect(x - halfSize, y - halfSize, size, size, color);
+}
+
 export const drawHorizontalLine = (
     x: number,
     y: number,
